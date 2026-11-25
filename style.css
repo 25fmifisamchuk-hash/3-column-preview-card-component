@@ -1,0 +1,131 @@
+/* =========================================================
+   3-column preview card component
+   Розмітка побудована тільки на CSS Grid.
+   Макети: desktop — 1440px, mobile — 375px.
+   ========================================================= */
+
+/* ---------- Кольори зі style-guide.md ---------- */
+:root {
+  --gold-500: hsl(31, 77%, 52%);        /* Sedans */
+  --cyan-800: hsl(184, 100%, 22%);      /* SUVs */
+  --green-950: hsl(179, 100%, 13%);     /* Luxury */
+  --white-75: hsla(0, 0%, 100%, 0.75);  /* текст абзаців */
+  --gray-100: hsl(0, 0%, 95%);          /* фон сторінки, заголовки, кнопки */
+}
+
+/* ---------- Базове скидання стилів ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* ---------- Сторінка ---------- */
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;   /* 1-й рядок — блок карток (займає весь вільний простір), 2-й — підпис */
+  place-items: center;            /* вміст обох рядків — по центру */
+  gap: 1.5rem;                    /* 24px */
+  padding: 1.5rem;                /* 24px */
+  background-color: var(--gray-100);
+  font-family: "Lexend Deca", sans-serif;
+  font-size: 0.9375rem;           /* 15px */
+}
+
+/* ---------- Блок із трьома картками ---------- */
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);  /* три однакові колонки */
+  width: 100%;
+  max-width: 57.5rem;             /* 920px */
+  min-height: 31.25rem;           /* 500px — висота блоку з макета */
+  border-radius: 0.5rem;          /* 8px — закруглення всього блоку */
+  overflow: hidden;               /* кути карток обрізаються по закругленню блоку */
+}
+
+/* ---------- Картка ---------- */
+.card {
+  display: grid;
+  /* 4 рядки: іконка, заголовок, текст, кнопка.
+     Рядок з текстом (1fr) забирає весь вільний простір,
+     тому кнопки в усіх картках стоять на одному рівні внизу. */
+  grid-template-rows: auto auto 1fr auto;
+  justify-items: start;           /* елементи не розтягуються на всю ширину картки */
+  padding: 3rem;                  /* 48px */
+  background-color: var(--card-color);
+}
+
+/* Колір кожної картки: його використовують і фон, і текст кнопки */
+.card--sedans { --card-color: var(--gold-500); }
+.card--suvs   { --card-color: var(--cyan-800); }
+.card--luxury { --card-color: var(--green-950); }
+
+.card__title {
+  margin-top: 2.25rem;            /* 36px */
+  font-family: "Big Shoulders", sans-serif;
+  font-size: 2.5rem;              /* 40px */
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+  color: var(--gray-100);
+}
+
+.card__text {
+  margin-top: 2rem;               /* 32px */
+  line-height: 1.67;              /* ≈25px */
+  color: var(--white-75);
+}
+
+/* ---------- Кнопка «Learn More» ---------- */
+.card__button {
+  margin-top: 1.5625rem;          /* 25px */
+  padding: 0.625rem 1.875rem;     /* 10px 30px → кнопка 146×48px, як у макеті */
+  border: 2px solid var(--gray-100);
+  border-radius: 1.5rem;          /* 24px — половина висоти, кнопка-«пігулка» */
+  background-color: var(--gray-100);
+  color: var(--card-color);
+  line-height: 1.5rem;            /* 24px */
+  text-decoration: none;
+  transition: background-color 0.3s, color 0.3s;
+}
+
+/* Hover-стан (design/active-states.jpg): прозорий фон, світлі рамка й текст */
+.card__button:hover,
+.card__button:focus-visible {
+  background-color: transparent;
+  color: var(--gray-100);
+}
+
+/* Помітний фокус для навігації з клавіатури (Tab) */
+.card__button:focus-visible {
+  outline: 2px dashed var(--gray-100);
+  outline-offset: 4px;
+}
+
+/* ---------- Підпис Frontend Mentor ---------- */
+.attribution {
+  font-size: 0.6875rem;           /* 11px */
+  text-align: center;
+}
+
+.attribution a {
+  color: hsl(228, 45%, 44%);
+}
+
+/* =========================================================
+   Мобільна версія (макет 375px):
+   на екранах до 900px картки стають в одну колонку
+   ========================================================= */
+@media (max-width: 900px) {
+  body {
+    padding: 5.5rem 1.5rem;       /* 88px зверху/знизу, 24px з боків */
+  }
+
+  .cards {
+    grid-template-columns: 1fr;   /* одна колонка — картки одна під одною */
+    max-width: 20.4375rem;        /* 327px */
+  }
+}
